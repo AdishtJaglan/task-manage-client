@@ -1,4 +1,3 @@
-// src/pages/UpdateTodo.js
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTodos, updateTodo } from "../services/api";
