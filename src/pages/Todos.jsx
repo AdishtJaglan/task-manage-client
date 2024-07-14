@@ -10,28 +10,28 @@ export default function Todos() {
       const response = await getTodos();
       setTodos(response.data);
     }
-
     fetchTodos();
   }, []);
 
   const handleDelete = async (id) => {
     await deleteTodo(id);
-    setTodos(todos.filter((todo) => todo.id != id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
     <div>
       <h2>Todos</h2>
       <Link to="/todos/create">Create Todo</Link>
-
       <ul>
-        {todos.map((todo) => {
+        {todos.map((todo) => (
           <li key={todo.id}>
-            {todo.title}
+            <h3>{todo.title}</h3>
+            <p>{todo.description}</p>
+            <p>{todo.completed ? "Completed" : "Not Completed"}</p>
             <Link to={`/todos/update/${todo.id}`}>Update</Link>
             <button onClick={() => handleDelete(todo.id)}>Delete</button>
-          </li>;
-        })}
+          </li>
+        ))}
       </ul>
     </div>
   );
