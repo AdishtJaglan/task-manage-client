@@ -31,7 +31,7 @@ export default function Login() {
       >
         <h2 className="text-4xl font-semibold text-justify mt-5">Login</h2>
 
-        <div className="form-container w-full">
+        <div className="w-full">
           <label className="block text-base font-medium mb-1">Username:</label>
           <input
             type="text"
@@ -41,7 +41,7 @@ export default function Login() {
           />
         </div>
 
-        <div className="form-container w-full">
+        <div className="w-full">
           <label className="block text-base font-medium mb-1">Password:</label>
           <input
             type="password"
@@ -53,7 +53,7 @@ export default function Login() {
 
         <button
           type="submit"
-          className="w-auto h-[48px] py-2 bg-blue-300 text-white font-semibold rounded-md hover:bg-blue-500"
+          className="w-auto h-[48px] py-2 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-500"
         >
           Login
         </button>
