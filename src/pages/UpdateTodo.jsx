@@ -62,7 +62,7 @@ export default function UpdateTodo() {
         completed,
         user: user_id,
       };
-      const response = await axios.patch(
+      await axios.patch(
         `http://127.0.0.1:8000/api/tasks/?pk=${id}`,
         tasksInfo,
         {
@@ -72,8 +72,7 @@ export default function UpdateTodo() {
         }
       );
 
-      console.log(response.data);
-      navigate("/todos");
+      navigate("/todos", { state: { isUpdated: true } });
     }
   };
 

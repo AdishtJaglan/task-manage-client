@@ -4,6 +4,7 @@ import refreshAccessToken from "../utility/refreshAccessToken";
 import { jwtDecode } from "jwt-decode";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -43,69 +44,93 @@ export default function Register() {
           },
         });
 
-        navigate("/login");
+        navigate("/login", { state: { isRegistered: true } });
       }
     } catch (error) {
+      toast.error("Error registering user: " + error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       console.error("Registration failed", error.message);
     }
   };
 
   return (
-    <div className="bg-zinc-200 w-full h-full">
-      <Navbar />
-      <div className="flex flex-grow items-center justify-center h-[44rem]">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-blue-100 grid grid-rows-5 gap-6 max-w-md w-96 p-6 shadow-md rounded-lg h-[70%]"
-        >
-          <h2 className="text-3xl mt-6 text-neutral-950 font-semibold">
-            Register
-          </h2>
-
-          <div className="flex flex-col justify-center items-start">
-            <label className="text-lg font-medium text-neutral-950">
-              Username:
-            </label>
-            <input
-              type="text"
-              value={username}
-              className="w-full p-4 rounded-md outline-none"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-col justify-center items-start">
-            <label className="text-lg font-medium text-neutral-950">
-              Email:
-            </label>
-            <input
-              type="email"
-              value={email}
-              className="w-full p-4 rounded-md outline-none"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-col justify-center items-start">
-            <label className="text-lg font-medium text-neutral-950">
-              Password:
-            </label>
-            <input
-              type="password"
-              value={password}
-              className="w-full p-4 rounded-md outline-none focus:border-blue-500"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="bg-blue-300 h-[70%] mt-4 rounded-lg hover:bg-blue-400 text-white font-bold"
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      <div className="bg-zinc-200 w-full h-full">
+        <Navbar />
+        <div className="flex flex-grow items-center justify-center h-[44rem]">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-blue-100 grid grid-rows-5 gap-6 max-w-md w-96 p-6 shadow-md rounded-lg h-[65%]"
           >
-            Register
-          </button>
-        </form>
+            <h2 className="text-3xl mt-6 text-neutral-950 font-semibold">
+              Register
+            </h2>
+
+            <div className="flex flex-col justify-center items-start">
+              <label className="text-lg font-medium text-neutral-950">
+                Username:
+              </label>
+              <input
+                type="text"
+                value={username}
+                className="w-full p-3 rounded-md outline-none"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col justify-center items-start">
+              <label className="text-lg font-medium text-neutral-950">
+                Email:
+              </label>
+              <input
+                type="email"
+                value={email}
+                className="w-full p-3 rounded-md outline-none"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col justify-center items-start">
+              <label className="text-lg font-medium text-neutral-950">
+                Password:
+              </label>
+              <input
+                type="password"
+                value={password}
+                className="w-full p-3 rounded-md outline-none focus:border-blue-500"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="bg-blue-300 h-[70%] mt-4 rounded-lg hover:bg-blue-400 text-white font-bold"
+            >
+              Register
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
