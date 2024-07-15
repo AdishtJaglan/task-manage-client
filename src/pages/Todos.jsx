@@ -74,21 +74,62 @@ export default function Todos() {
   };
 
   return (
-    <div className="bg-zinc-200 w-full h-full">
+    <div className="bg-zinc-200 w-full h-full min-h-screen flex flex-col">
       <Navbar />
-      <h2>Todos</h2>
-      <Link to="/todos/create">Create Todo</Link>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <h3>{todo.title}</h3>
-            <p>{todo.description}</p>
-            <p>{todo.completed ? "Completed" : "Not Completed"}</p>
-            <Link to={`/todos/update/${todo.id}`}>Update</Link>
-            <button onClick={() => handleDelete(todo.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <div className="flex flex-grow items-start justify-center p-4">
+        <div className="w-full max-w-5xl bg-white shadow-md rounded-md p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-4xl mb-4 font-bold">Todos</h2>
+            <Link
+              to="/todos/create"
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Create Todo
+            </Link>
+          </div>
+          <table className="min-w-full bg-white border border-gray-300">
+            <thead className="bg-gray-200">
+              <tr className="divide-x divide-gray-300">
+                <th className="py-2 px-4 border border-gray-300">Title</th>
+                <th className="py-2 px-4 border border-gray-300">
+                  Description
+                </th>
+                <th className="py-2 px-4 border border-gray-300">Status</th>
+                <th className="py-2 px-4 border border-gray-300">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-300">
+              {todos.map((todo) => (
+                <tr key={todo.id} className="divide-x divide-gray-300">
+                  <td className="py-2 px-4 border border-gray-300">
+                    {todo.title}
+                  </td>
+                  <td className="py-2 px-4 border border-gray-300">
+                    {todo.description}
+                  </td>
+                  <td className="py-2 px-4 border border-gray-300">
+                    {todo.completed ? "Completed" : "Not Completed"}
+                  </td>
+                  <td className="py-2 px-4 border border-gray-300 flex space-x-2 flex justify-evenly">
+                    <Link
+                      to={`/todos/update/${todo.id}`}
+                      className="px-4 py-2 bg-yellow-500 text-white rounded"
+                    >
+                      Update
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(todo.id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
