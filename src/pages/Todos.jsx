@@ -110,7 +110,7 @@ export default function Todos() {
                   <td className="py-2 px-4 border border-gray-300">
                     {todo.completed ? "Completed" : "Not Completed"}
                   </td>
-                  <td className="py-2 px-4 border border-gray-300 flex space-x-2 flex justify-evenly">
+                  <td className="py-2 px-4 border border-gray-300 flex space-x-2 justify-evenly">
                     <Link
                       to={`/todos/update/${todo.id}`}
                       className="px-4 py-2 bg-yellow-500 text-white rounded"

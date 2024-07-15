@@ -27,7 +27,7 @@ export default function Login() {
     <div className="bg-blue-300 w-full h-full flex justify-center items-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-blue-100 grid grid-rows-4 gap-6 max-w-md w-80 p-6 bg-white shadow-md rounded-md"
+        className="bg-blue-100 grid grid-rows-4 gap-6 max-w-md w-80 p-6 shadow-md rounded-md"
       >
         <h2 className="text-4xl font-semibold text-justify mt-5">Login</h2>
 

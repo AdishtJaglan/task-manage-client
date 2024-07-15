@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import refreshAccessToken from "../utility/refreshAccessToken";
+import Navbar from "../components/Navbar";
 import axios from "axios";
 
 export default function CreateTodo() {
@@ -52,28 +53,52 @@ export default function CreateTodo() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Create Todo</h2>
-      <label>Title:</label>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <label>Description:</label>
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <label>
-        Completed:
-        <input
-          type="checkbox"
-          checked={completed}
-          onChange={(e) => setCompleted(e.target.checked)}
-        />
-      </label>
-      <button type="submit">Create</button>
-    </form>
+    <div className="bg-zinc-200 w-full h-full min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex flex-grow items-center justify-center h-[36rem]">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-row-5 gap-6 max-w-md w-96 p-6 shadow-md rounded-lg h-[60%] bg-blue-100"
+        >
+          <h2 className="text-black font-bold text-3xl">Create Todo</h2>
+
+          <div className="flex flex-col justify-center items-start">
+            <label>Title:</label>
+            <input
+              type="text"
+              value={title}
+              className="w-full p-3 rounded-lg outline-none"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col justify-center items-start">
+            <label>Description:</label>
+            <textarea
+              value={description}
+              className="w-full p-3 rounded-lg outline-none"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={completed}
+              className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
+              onChange={(e) => setCompleted(e.target.checked)}
+            />
+            <label className="ml-2 text-lg font-medium">Completed</label>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-300 h-full p-3 rounded-lg hover:bg-blue-400 text-white font-bold"
+          >
+            Create
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
