@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import Navbar from "../components/Navbar";
 import refreshAccessToken from "../utility/refreshAccessToken";
 import axios from "axios";
 
@@ -73,7 +74,8 @@ export default function Todos() {
   };
 
   return (
-    <div>
+    <div className="bg-zinc-200 w-full h-full">
+      <Navbar />
       <h2>Todos</h2>
       <Link to="/todos/create">Create Todo</Link>
       <ul>
