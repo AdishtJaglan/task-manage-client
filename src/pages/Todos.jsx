@@ -106,16 +106,16 @@ export default function Todos() {
         });
         setTodos(todos.filter((todo) => todo.id !== id));
       } catch (error) {
-         toast.error("Error deleting task: " + error.message, {
-           position: "top-right",
-           autoClose: 5000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme: "colored",
-         });
+        toast.error("Error deleting task: " + error.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         console.error("Error deleting todo: " + error.message);
       }
     }
