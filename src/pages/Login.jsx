@@ -24,21 +24,40 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <label>Username:</label>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <label>Password:</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="bg-blue-300 w-full h-full flex justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-blue-100 grid grid-rows-4 gap-6 max-w-md w-80 p-6 bg-white shadow-md rounded-md"
+      >
+        <h2 className="text-4xl font-semibold text-justify mt-5">Login</h2>
+
+        <div className="form-container w-full">
+          <label className="block text-base font-medium mb-1">Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-blue-500"
+          />
+        </div>
+
+        <div className="form-container w-full">
+          <label className="block text-base font-medium mb-1">Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-blue-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-auto h-[48px] py-2 bg-blue-300 text-white font-semibold rounded-md hover:bg-blue-500"
+        >
+          Login
+        </button>
+      </form>
+    </div>
   );
 }
