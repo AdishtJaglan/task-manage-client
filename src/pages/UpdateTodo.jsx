@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getTodos, updateTodo } from "../services/api";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function UpdateTodo() {
   const { id } = useParams();
@@ -11,7 +12,14 @@ export default function UpdateTodo() {
 
   useEffect(() => {
     async function fetchTodo() {
-      const response = await getTodos();
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response.data);
       const todo = response.data.find((todo) => todo.id === parseInt(id));
       setTitle(todo.title);
       setDescription(todo.description);
@@ -21,9 +29,31 @@ export default function UpdateTodo() {
   }, [id]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    await updateTodo(id, { title, description, completed });
-    navigate("/todos");
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const { user_id } = jwtDecode(token);
+
+      e.preventDefault();
+      const tasksInfo = {
+        title,
+        description,
+        completed,
+        user: user_id,
+      };
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/tasks/?pk=${id}`,
+        tasksInfo,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+      navigate("/todos");
+    }
   };
 
   return (

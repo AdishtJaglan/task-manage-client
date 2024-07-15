@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createTodo } from "../services/api";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 export default function CreateTodo() {
   const [title, setTitle] = useState("");
@@ -10,8 +11,30 @@ export default function CreateTodo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createTodo({ title, description, completed });
-    navigate("/todos");
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const { user_id } = jwtDecode(token);
+      console.log(user_id);
+
+      try {
+        const todoBody = {
+          title,
+          description,
+          completed,
+          user: user_id,
+        };
+        await axios.post("http://127.0.0.1:8000/api/tasks/", todoBody, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        navigate("/todos");
+      } catch (error) {
+        console.error("Erro occured while creating todo: " + error.message);
+      }
+    }
   };
 
   return (

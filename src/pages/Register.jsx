@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "../services/api";
+import axios from "axios";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -11,7 +11,25 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register({ username, email, password });
+      const token = localStorage.getItem("token");
+      const userInfo = {
+        username,
+        email,
+        password,
+      };
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/users/",
+        userInfo,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(response.data);
       navigate("/login");
     } catch (error) {
       console.error("Registration failed", error);

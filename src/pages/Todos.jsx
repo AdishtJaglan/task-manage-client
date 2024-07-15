@@ -1,20 +1,36 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getTodos, deleteTodo } from "../services/api";
+import axios from "axios";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     async function fetchTodos() {
-      const response = await getTodos();
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setTodos(response.data);
     }
     fetchTodos();
   }, []);
 
   const handleDelete = async (id) => {
-    await deleteTodo(id);
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(
+      `http://127.0.0.1:8000/api/tasks/?pk=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(response.data);
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
