@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import refreshAccessToken from "../utility/refreshAccessToken";
 
 export default function UpdateTodo() {
   const { id } = useParams();
@@ -12,18 +13,37 @@ export default function UpdateTodo() {
 
   useEffect(() => {
     async function fetchTodo() {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      let token = localStorage.getItem("token");
+      const rToken = localStorage.getItem("rToken");
 
-      console.log(response.data);
-      const todo = response.data.find((todo) => todo.id === parseInt(id));
-      setTitle(todo.title);
-      setDescription(todo.description);
-      setCompleted(todo.completed);
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          try {
+            token = await refreshAccessToken(rToken);
+          } catch (error) {
+            console.error("Unable to refresh token:", error.message);
+            return;
+          }
+        }
+
+        try {
+          const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const todo = response.data.find((todo) => todo.id === parseInt(id));
+          setTitle(todo.title);
+          setDescription(todo.description);
+          setCompleted(todo.completed);
+        } catch (error) {
+          console.error("Error fetching todos: " + error.message);
+        }
+      }
     }
     fetchTodo();
   }, [id]);

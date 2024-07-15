@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import refreshAccessToken from "../utility/refreshAccessToken";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 export default function Register() {
@@ -11,28 +13,39 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      const userInfo = {
-        username,
-        email,
-        password,
-      };
+      let token = localStorage.getItem("token");
+      const rToken = localStorage.getItem("rToken");
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/users/",
-        userInfo,
-        {
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          try {
+            token = await refreshAccessToken(rToken);
+          } catch (error) {
+            console.error("Unable to refresh token:", error.message);
+            return;
+          }
+        }
+
+        const userInfo = {
+          username,
+          email,
+          password,
+        };
+
+        await axios.post("http://127.0.0.1:8000/api/users/", userInfo, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
-      );
+        });
 
-      console.log(response.data);
-      navigate("/login");
+        navigate("/login");
+      }
     } catch (error) {
-      console.error("Registration failed", error);
+      console.error("Registration failed", error.message);
     }
   };
 

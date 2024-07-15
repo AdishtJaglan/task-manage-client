@@ -16,6 +16,7 @@ export default function Login() {
       });
 
       localStorage.setItem("token", response.data.access);
+      localStorage.setItem("rToken", response.data.refresh);
       navigate("/todos");
     } catch (error) {
       console.error("Login failed", error);

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import refreshAccessToken from "../utility/refreshAccessToken";
 import axios from "axios";
 
 export default function Todos() {
@@ -7,31 +9,67 @@ export default function Todos() {
 
   useEffect(() => {
     async function fetchTodos() {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      let token = localStorage.getItem("token");
+      const rToken = localStorage.getItem("rToken");
 
-      setTodos(response.data);
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          try {
+            token = await refreshAccessToken(rToken);
+          } catch (error) {
+            console.error("Unable to refresh token:", error.message);
+            return;
+          }
+        }
+
+        try {
+          const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          setTodos(response.data);
+        } catch (error) {
+          console.error("Error fetching todos: " + error.message);
+        }
+      }
     }
     fetchTodos();
   }, []);
 
   const handleDelete = async (id) => {
-    const token = localStorage.getItem("token");
-    const response = await axios.delete(
-      `http://127.0.0.1:8000/api/tasks/?pk=${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    let token = localStorage.getItem("token");
+    const rToken = localStorage.getItem("rItem");
 
-    console.log(response.data);
-    setTodos(todos.filter((todo) => todo.id !== id));
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decodedToken.exp < currentTime) {
+        try {
+          token = await refreshAccessToken(rToken);
+        } catch (error) {
+          console.error("Unable to refresh token:", error.message);
+          return;
+        }
+      }
+
+      try {
+        await axios.delete(`http://127.0.0.1:8000/api/tasks/?pk=${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setTodos(todos.filter((todo) => todo.id !== id));
+      } catch (error) {
+        console.error("Error deleting todo: " + error.message);
+      }
+    }
   };
 
   return (

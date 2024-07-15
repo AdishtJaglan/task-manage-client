@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import refreshAccessToken from "../utility/refreshAccessToken";
 import axios from "axios";
 
 export default function CreateTodo() {
@@ -11,9 +12,22 @@ export default function CreateTodo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    let token = localStorage.getItem("token");
+    const rToken = localStorage.getItem("rToken");
 
     if (token) {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decodedToken.exp < currentTime) {
+        try {
+          token = await refreshAccessToken(rToken);
+        } catch (error) {
+          console.error("Unable to refresh token:", error.message);
+          return;
+        }
+      }
+
       const { user_id } = jwtDecode(token);
       console.log(user_id);
 
