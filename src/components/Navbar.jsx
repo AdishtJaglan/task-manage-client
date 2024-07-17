@@ -35,11 +35,18 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-blue-500 flex justify-between items-center p-7">
-      <h1 className="text-4xl font-black text-zinc-200">Tasks</h1>
-      <div className="w-48 flex justify-evenly items-center text-zinc-200 font-bold text-xl">
+    <nav className="bg-blue-500 flex justify-between items-center p-7 shadow-md">
+      <h1 className="text-4xl font-black text-gray-800">Tasks</h1>
+      <div className="w-48 flex justify-evenly items-center text-gray-800-200 font-bold text-xl">
         {username ? (
-          `Hello, ${username}`
+          <>
+            <span className="text-gray-800">Hello, {username}</span>
+            <img
+              src="/user-icon.png"
+              alt="User Icon"
+              className="w-12 h-12 rounded-full"
+            />
+          </>
         ) : (
           <>
             <Link to="/login">Login</Link>

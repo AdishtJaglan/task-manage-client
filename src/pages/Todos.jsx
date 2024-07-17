@@ -135,7 +135,7 @@ export default function Todos() {
         pauseOnHover
         theme="colored"
       />
-      <div className="bg-zinc-200 w-full h-full min-h-screen flex flex-col">
+      <div className="bg-neutral-100 w-full h-full min-h-screen flex flex-col">
         <Navbar />
         <div className="flex flex-grow items-start justify-center p-4">
           <div className="w-full max-w-5xl bg-white shadow-md rounded-md p-6">
@@ -143,7 +143,7 @@ export default function Todos() {
               <h2 className="text-4xl mb-4 font-bold">Todos</h2>
               <Link
                 to="/todos/create"
-                className="px-4 py-2 bg-blue-500 text-white rounded"
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
               >
                 Create Todo
               </Link>
@@ -174,13 +174,13 @@ export default function Todos() {
                     <td className="py-2 px-4 border border-gray-300 flex space-x-2 justify-evenly">
                       <Link
                         to={`/todos/update/${todo.id}`}
-                        className="px-4 py-2 bg-yellow-500 text-white rounded"
+                        className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                       >
                         Update
                       </Link>
                       <button
                         onClick={() => handleDelete(todo.id)}
-                        className="px-4 py-2 bg-red-500 text-white rounded"
+                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
                       >
                         Delete
                       </button>

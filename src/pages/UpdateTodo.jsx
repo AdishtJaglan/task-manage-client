@@ -77,12 +77,12 @@ export default function UpdateTodo() {
   };
 
   return (
-    <div className="bg-zinc-200 w-full h-full min-h-screen flex flex-col">
+    <div className="bg-neutral-100 w-full h-full min-h-screen flex flex-col">
       <Navbar />
       <div className="flex flex-grow items-center justify-center h-[36rem]">
         <form
           onSubmit={handleSubmit}
-          className="grid grid-row-5 gap-6 max-w-md w-96 p-6 shadow-md rounded-lg h-[60%] bg-blue-100"
+          className="grid grid-row-5 gap-6 max-w-md w-96 p-6 shadow-md rounded-lg h-[60%] bg-zinc-200"
         >
           <h2 className="text-black font-bold text-3xl">Update Todo</h2>
 
@@ -91,7 +91,7 @@ export default function UpdateTodo() {
             <input
               type="text"
               value={title}
-              className="w-full p-3 rounded-lg outline-none"
+              className="w-full p-3 rounded-lg outline-none border border-gray-300 focus:border-blue-500"
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
@@ -100,7 +100,7 @@ export default function UpdateTodo() {
             <label className="text-lg font-semibold">Description:</label>
             <textarea
               value={description}
-              className="w-full p-3 rounded-lg outline-none"
+              className="w-full p-3 rounded-lg outline-none border border-gray-300 focus:border-blue-500"
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
@@ -109,7 +109,7 @@ export default function UpdateTodo() {
             <input
               type="checkbox"
               checked={completed}
-              className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
+              className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out border border-gray-300 focus:border-blue-500"
               onChange={(e) => setCompleted(e.target.checked)}
             />
             <label className="ml-2 text-lg font-medium">Completed</label>
@@ -117,7 +117,7 @@ export default function UpdateTodo() {
 
           <button
             type="submit"
-            className="bg-blue-300 h-full p-3 rounded-lg hover:bg-blue-400 text-white font-bold"
+            className="bg-blue-400 h-full p-3 rounded-lg hover:bg-blue-500 text-white font-bold"
           >
             Update
           </button>
