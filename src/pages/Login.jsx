@@ -51,6 +51,7 @@ export default function Login() {
         progress: undefined,
         theme: "colored",
       });
+      setLoading(false);
       console.error("Login failed", error);
     }
   };
