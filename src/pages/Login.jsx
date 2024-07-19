@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import Spinner from "/spinner.gif";
@@ -75,7 +75,7 @@ export default function Login() {
           onSubmit={handleSubmit}
           className="bg-blue-100 grid grid-rows-4 gap-6 max-w-md w-80 p-6 shadow-md rounded-md"
         >
-          <h2 className="text-4xl font-semibold text-justify mt-5">Login</h2>
+          <h2 className="text-4xl font-semibold text-justify mt-6">Login</h2>
 
           <div className="w-full">
             <label className="block text-base font-medium mb-1">
@@ -85,7 +85,7 @@ export default function Login() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md outline-none focus:border-blue-500"
             />
           </div>
 
@@ -97,20 +97,32 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md outline-none focus:border-blue-500"
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-auto h-[48px] py-2 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-500 flex justify-center items-center"
-          >
-            {loading ? (
-              <img src={Spinner} alt="loading..." className="h-6 w-6" />
-            ) : (
-              "Login"
-            )}
-          </button>
+          <div className="w-full place-self-start">
+            <p>
+              Dont have an account?{" "}
+              <Link
+                to="/register"
+                className="text-blue-400 italic hover:text-blue-500 hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+
+            <button
+              type="submit"
+              className="w-full h-[48px] py-2 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-500 flex justify-center items-center mt-2"
+            >
+              {loading ? (
+                <img src={Spinner} alt="loading..." className="h-6 w-6" />
+              ) : (
+                "Login"
+              )}
+            </button>
+          </div>
         </form>
       </div>
     </>

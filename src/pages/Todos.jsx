@@ -41,7 +41,7 @@ export default function Todos() {
       });
 
       navigate(".", {
-        state: { ...location.state, todoCreate: false },
+        state: { ...location.state, todoCreated: false },
         replace: true,
       });
     } else if (location.state?.isUpdated) {
