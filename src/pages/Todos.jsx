@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Navbar from "../components/Navbar";
 import refreshAccessToken from "../utility/refreshAccessToken";
@@ -9,32 +9,59 @@ import { toast, ToastContainer } from "react-toastify";
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (
-      location.state?.isLoggedIn ||
-      location.state?.todoCreated ||
-      location.state?.isUpdated
-    ) {
-      toast.success(
-        location.state?.isLoggedIn
-          ? "Login successful!"
-          : location.state?.todoCreated
-          ? "Task created successfully!"
-          : "Task updated successfully!",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        }
-      );
+    if (location.state?.isLoggedIn) {
+      toast.success("Login successful!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      navigate(".", {
+        state: { ...location.state, isLoggedIn: false },
+        replace: true,
+      });
+    } else if (location.state?.todoCreated) {
+      toast.success("Task created successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      navigate(".", {
+        state: { ...location.state, todoCreate: false },
+        replace: true,
+      });
+    } else if (location.state?.isUpdated) {
+      toast.success("Task updated successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      navigate(".", {
+        state: { ...location.state, isUpdated: false },
+        replace: true,
+      });
     }
-  }, [location.state]);
+  }, [location.state, navigate]);
 
   useEffect(() => {
     async function fetchTodos() {
@@ -56,11 +83,14 @@ export default function Todos() {
         }
 
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/user_tasks/?pk=${user_id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            `http://127.0.0.1:8000/api/user_tasks/?pk=${user_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           setTodos(response.data);
         } catch (error) {
