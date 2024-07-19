@@ -42,10 +42,11 @@ export default function Todos() {
       const rToken = localStorage.getItem("rToken");
 
       if (token) {
-        const decodedToken = jwtDecode(token);
+        const { exp, user_id } = jwtDecode(token);
+
         const currentTime = Date.now() / 1000;
 
-        if (decodedToken.exp < currentTime) {
+        if (exp < currentTime) {
           try {
             token = await refreshAccessToken(rToken);
           } catch (error) {
@@ -55,7 +56,7 @@ export default function Todos() {
         }
 
         try {
-          const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+          const response = await axios.get(`http://127.0.0.1:8000/api/user_tasks/?pk=${user_id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
