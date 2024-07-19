@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import Spinner from "/spinner.gif";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,6 +29,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/token/", {
         username,
@@ -99,9 +102,13 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-auto h-[48px] py-2 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-500"
+            className="w-auto h-[48px] py-2 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-500 flex justify-center items-center"
           >
-            Login
+            {loading ? (
+              <img src={Spinner} alt="loading..." className="h-6 w-6" />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>
