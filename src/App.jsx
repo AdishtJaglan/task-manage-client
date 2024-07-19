@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import Todos from "./pages/Todos";
 import CreateTodo from "./pages/CreateTodo";
 import UpdateTodo from "./pages/UpdateTodo";
+import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/todos"
           element={

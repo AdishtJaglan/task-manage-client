@@ -60,6 +60,12 @@ export default function Navbar() {
               <div className="translate-y-6">
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
                   <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Profile
+                  </Link>
+                  <Link
                     to="/register"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >

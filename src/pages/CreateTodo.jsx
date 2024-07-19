@@ -68,7 +68,7 @@ export default function CreateTodo() {
           progress: undefined,
           theme: "colored",
         });
-        console.error("Erro occured while creating todo: " + error.message);
+        console.error("Error occured while creating todo: " + error.message);
       }
     }
   };
